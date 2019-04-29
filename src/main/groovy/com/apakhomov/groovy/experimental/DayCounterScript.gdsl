@@ -1,0 +1,8 @@
+package com.apakhomov.groovy.experimental
+
+def ctx = context(ctype: "java.lang.Integer",
+        scope: scriptScope(name: "DayCounter.groovy"))
+
+contributor(ctx) {
+    property name: "daysFromNow", type: "Calendar"
+}
