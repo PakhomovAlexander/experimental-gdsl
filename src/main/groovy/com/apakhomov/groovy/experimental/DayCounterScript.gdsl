@@ -1,8 +1,29 @@
 package com.apakhomov.groovy.experimental
 
-def ctx = context(ctype: "java.lang.Integer",
+def ctx1 = context(ctype: "java.lang.Integer",
         scope: scriptScope(name: "DayCounter.groovy"))
 
-contributor(ctx) {
+contributor(ctx1) {
     property name: "daysFromNow", type: "Calendar"
+}
+
+def ctx2 = context(scope: closureScope())
+
+contributor(ctx2, {
+    def call = enclosingCall("run")
+    if (call) {
+        def method = call.bind()
+        def clazz = method?.containingClass
+        if ("Runner".equals(clazz?.qualName)) {
+            delegatesTo(call.arguments[0])
+        }
+    }
+})
+
+def ctx3 = context()
+
+contributor(ctx3) {
+    method name: "foo",
+            params: [s: "java.lang.String"],
+            type: "int"
 }
