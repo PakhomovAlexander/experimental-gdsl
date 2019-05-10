@@ -1,5 +1,7 @@
 package com.apakhomov.groovy.experimental
 
+import org.codehaus.groovy.runtime.GStringImpl
+
 def ctx1 = context(ctype: "java.lang.Integer",
         scope: scriptScope(name: "DayCounter.groovy"))
 
@@ -9,21 +11,30 @@ contributor(ctx1) {
 
 def ctx2 = context(scope: closureScope())
 
-contributor(ctx2, {
-    def call = enclosingCall("run")
-    if (call) {
-        def method = call.bind()
-        def clazz = method?.containingClass
-        if ("Runner".equals(clazz?.qualName)) {
-            delegatesTo(call.arguments[0])
-        }
+contributor(ctx2) {
+
+    // XXX without this line the whole contributor stops working
+    String type = psiType
+
+    def classDefinition = findClass('com.apakhomov.groovy.experimental.Metadata')
+    def listOfFields = classDefinition.getFields()[0].getInitializer()
+    def fieldNames = listOfFields.collect { it.text as String }[0].split(',')
+            .collect { it.replaceAll("\\[", '') }
+            .collect { it.replaceAll("\\]", '') }
+            .collect { it.trim() }
+
+//    println(fieldNames)
+//    fieldNames.each {println(it)}
+
+    //listOfFields.collect {println(it.text)}
+
+//    if (!psiClass) return
+//
+//    def project = place.manager.project
+
+    fieldNames.each {
+        property name: it, //fixme
+                type: "String"
+        println(it)
     }
-})
-
-def ctx3 = context()
-
-contributor(ctx3) {
-    method name: "foo",
-            params: [s: "java.lang.String"],
-            type: "int"
 }

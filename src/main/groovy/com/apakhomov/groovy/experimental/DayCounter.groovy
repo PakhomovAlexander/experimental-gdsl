@@ -7,3 +7,13 @@ Integer.metaClass.getDaysFromNow = { ->
 }
 
 println(5.daysFromNow)
+
+@Singleton
+class Test {}
+
+Test.instance
+
+
+transform {
+
+}

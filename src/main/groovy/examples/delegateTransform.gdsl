@@ -1,0 +1,9 @@
+package examples
+
+contributor(context()) {
+  classType?.fields?.each {
+    if (it.hasAnnotation("groovy.lang.Delegate")) {
+      delegatesTo(it.classType)
+    }
+  }
+}
