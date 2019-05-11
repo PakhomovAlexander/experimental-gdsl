@@ -1,0 +1,22 @@
+package com.apakhomov.groovy.experimental
+
+def ctx2 = context(scope: closureScope())
+
+contributor(ctx2) {
+
+    // XXX without this line the whole contributor stops working
+    String type = psiType
+
+    def classDefinition = findClass('com.apakhomov.groovy.experimental.Metadata')
+    def listOfFields = classDefinition.getFields()[0]
+            .getInitializer()
+            .navigationElement
+            .initializers
+            .collect { it.text }
+            .collect { it.replaceAll("\\'", '') }
+            .collect { it.trim() }
+
+    listOfFields.each {
+        property name: it, type: "String"
+    }
+}
