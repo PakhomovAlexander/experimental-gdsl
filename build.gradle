@@ -1,5 +1,6 @@
 plugins {
     id 'groovy'
+    id "org.jetbrains.intellij" version "0.4.7"
 }
 
 group 'com.apakhomov.groovy.experimental'
@@ -7,6 +8,8 @@ version '1.0-SNAPSHOT'
 
 subprojects {
     apply plugin: 'groovy'
+    apply plugin: 'idea'
+    apply plugin: 'org.jetbrains.intellij'
     
     repositories {
         mavenCentral()
