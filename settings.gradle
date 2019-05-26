@@ -1,2 +1,4 @@
 rootProject.name = 'gdsl'
+include 'grip-gdsl'
+include 'poc'
 
